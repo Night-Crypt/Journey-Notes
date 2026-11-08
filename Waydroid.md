@@ -1,3 +1,8 @@
+Waydroid is an android container the "best way" to run android apps on linux 
+-  U need to use a wayland compositor as waydroid doesnt support x11
+	- (eg. KDE, Gnome, Niri, Hyprland etc.)
+
+
 1. Install Waydroid from Package manager
 ``` bash
 sudo dnf install waydroid
@@ -42,7 +47,26 @@ waydroid session start
 waydroid show-full-ui # or launch from dmenu/application launcher
 ```
 
-5. Extra
+4-1. 
+FOR GAPPS
+	u need to certify and "tell" google that its a "real" device
+		thankfully the overall process is very easy 
+```bash
+sudo waydroid shell
+ANDROID_RUNTIME_ROOT=/apex/com.android.runtime ANDROID_DATA=/data ANDROID_TZDATA_ROOT=/apex/com.android.tzdata ANDROID_I18N_ROOT=/apex/com.android.i18n sqlite3 /data/data/com.google.android.gsf/databases/gservices.db "select * from main where name = \"android_id\";"
+
+# copy the long number it returns
+
+```
+paste it here[https://google.com/android/uncertified](https://google.com/android/uncertified) 
+```bash
+# then restart
+waydroid session stop
+waydroid session start
+waydroid show-full-ui
+```
+
+6. Extra
 Waydroid_Script by casualsnek is an excellent utility 
 install it from https://github.com/casualsnek/waydroid_script
 
@@ -53,3 +77,7 @@ python3 -m venv venv
 venv/bin/pip install -r requirements.txt
 sudo venv/bin/python3 main.py
 ```
+- Installs GApps (OpenGApps or MindTheGapps), Magisk, and microG
+- Installs ARM translation (libhoudini or libndk) for ARM-only apps 
+	- Highly recommend u do this ^
+- Installs Widevine (for DRM video), SmartDock, and a few other extras
